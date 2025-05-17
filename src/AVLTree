@@ -1,0 +1,90 @@
+public class AVLTree<T extends Comparable<T>> {
+   // private TreeNode<T> root; // The root node of the AVL tree
+    private Comparator<T> comparator; // Comparator (that we have already created to compare movies)
+
+   public AVLTree(Comparator<T> comparator) {
+       // this.root = null; // Initialize the root to null
+        this.comparator = comparator; // Set the comparator for the tree
+    }
+
+
+
+    public TreeNode<T> insert(TreeNode<T> root ,T data){
+        if(root == null){
+            root = new TreeNode(data);
+        }
+        if(comparator.compare(data,root.data)<0){//if new data is less than root data we go left
+            root.leftChild = insert(root.leftChild,data);
+            root.leftChild.parent = root;
+        }
+        if(comparator.compare(data,root.data)>0){//if new data is greater than root data we go right
+            root.rightChild = insert(root.rightChild,data);
+            root.rightChild.parent = root;
+        }
+        else{
+            return root; 
+        }
+        root.depth = Math.max(getDepth(root.leftChild), getDepth(root.rightChild)) + 1; // Update the depth of the node
+        int balanceFactor = getBalanceFactor(root); // Get the balance factor of the node
+
+
+        if(balanceFactor > 1 && comparator.compare(data,root.leftChild.data)<0){ // Left Left Case
+            return rightRotate(root); 
+        }
+        if(balanceFactor < -1 && comparator.compare(data,root.rightChild.data)>0){ // Right Right Case
+            return leftRotate(root); 
+        }
+        if(balanceFactor > 1 && comparator.compare(data,root.leftChild.data)>0){ // Left Right Case
+            root.leftChild = leftRotate(root.leftChild); 
+            return rightRotate(root); 
+        }   
+        if(balanceFactor < -1 && comparator.compare(data,root.rightChild.data)<0){ // Right Left Case
+            root.rightChild = rightRotate(root.rightChild); 
+            return leftRotate(root); 
+        }
+        return root; 
+    }
+
+    public TreeNode<T> rightRotate(TreeNode<T> root){
+        TreeNode<T> y = root.leftChild;
+        TreeNode<T> x = y.rightChild;
+        y.rightChild = root;
+        root.leftChild = x;
+        root.depth = Math.max(getDepth(root.leftChild), getDepth(root.rightChild)) + 1; // Update the depth 
+        y.depth = Math.max(getDepth(y.leftChild), getDepth(y.rightChild)) + 1; 
+        return y; 
+    
+    }
+
+    public TreeNode<T> leftRotate(TreeNode<T> root){
+        TreeNode<T> y = root.rightChild;
+        TreeNode<T> x = y.leftChild;
+        y.leftChild = root;
+        root.rightChild = x;
+        root.depth = Math.max(getDepth(root.leftChild), getDepth(root.rightChild)) + 1; // Update the depth 
+        y.depth = Math.max(getDepth(y.leftChild), getDepth(y.rightChild)) + 1;
+        return y; 
+    }
+
+
+
+
+    public int getBalanceFactor(TreeNode<T> root){
+        if(root == null){
+            return 0;
+        }
+        return getDepth(root.leftChild) - getDepth(root.rightChild); // Calculate the balance factor
+    }
+
+
+
+
+    public int getDepth(TreeNode<T> root){
+        if(root == null){
+            return -1;
+    }
+        return root.depth; // Return the depth of the node
+    }
+
+
+}

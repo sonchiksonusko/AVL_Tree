@@ -1,0 +1,210 @@
+import java.util.Comparator;
+import Comparators.IMDB_Rating_Comparator;
+
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Movie implements Comparable<Movie> {
+
+    String Poster_link;
+    String Series_Title;
+    String Released_Year;
+    String Certificate;
+    String Runtime;
+    String Genre;
+    Double IMDB_Rating;
+    String Overview;
+    String Meta_score;
+    String Director;
+    ArrayList<String> Star;
+    String No_of_votes;
+    String Gross;
+    
+
+    // Constructor
+    public Movie(String poster_link, String series_Title, String released_Year, String certificate, String runtime,
+                 String genre, Double imdb_Rating, String overview, String meta_score, String director,
+                 ArrayList<String> star, String no_of_votes, String gross) {
+        Poster_link = poster_link;
+        Series_Title = series_Title;
+        Released_Year = released_Year;
+        Certificate = certificate;
+        Runtime = runtime;
+        Genre = genre;
+        IMDB_Rating = imdb_Rating;
+        Overview = overview;
+        Meta_score = meta_score;
+        Director = director;
+        Star = star;
+        No_of_votes = no_of_votes;
+        Gross = gross;
+
+    }
+    public static void main(String[] args) {
+        // Ensure the correct file path is provided
+        ArrayList<Movie> movies = readMoviesFromCSV("C:/Users/Соня/Desktop/imdb_top_1000.csv");
+        AVLTree<Movie> ratingTree = new AVLTree<>(new IMDB_Rating_Comparator());
+        TreeNode<Movie> root = null;
+        for (Movie m : movies) {
+            root = ratingTree.insert(root, m);
+        }
+        System.out.print(root);
+    }
+
+    public static ArrayList<Movie> readMoviesFromCSV(String myFile){
+        ArrayList<Movie> movies = new ArrayList<Movie>();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(myFile));
+            String line;
+            boolean firstLine = true;  // Skip the header line
+            while ((line = br.readLine()) != null) {
+                if (firstLine) { // Skip the first header line
+                    firstLine = false;
+                    continue;
+                }
+
+                // Split by commas, but handle cases where commas are inside quotes (e.g., movie descriptions)
+                String[] values = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+
+                String poster_link = values[0];
+                String series_Title = values[1];
+                String released_Year = values[2];
+                String certificate = values[3];
+                String runtime = values[4];
+                String genre = values[5];
+                Double imdb_Rating = Double.parseDouble(values[6]);
+                String overview = values[7];
+                String meta_score = values[8];
+                String director = values[9];
+
+                // Split stars by '|' (pipe) character
+                ArrayList<String> star = new ArrayList<String>(Arrays.asList(values[10].split("\\|")));
+                
+                String no_of_votes = values[11];
+                String gross = values[12];
+
+                Movie movie = new Movie(poster_link, series_Title, released_Year, certificate, runtime, genre,
+                        imdb_Rating, overview, meta_score, director, star, no_of_votes, gross);
+                movies.add(movie);
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return movies;
+    }
+
+
+
+
+    // Getters and Setters
+    public String getPoster_link() {
+        return Poster_link;
+    }
+
+    public void setPoster_link(String poster_link) {
+        Poster_link = poster_link;
+    }
+
+    public String getSeries_Title() {
+        return Series_Title;
+    }
+
+    public void setSeries_Title(String series_Title) {
+        Series_Title = series_Title;
+    }
+
+    public String getReleased_Year() {
+        return Released_Tear;
+    }
+
+    public void setReleased_Year(String released_Year) {
+        Released_Tear = released_Tear;
+    }
+
+    public String getCertificate() {
+        return Certificate;
+    }
+
+    public void setCertificate(String certificate) {
+        Certificate = certificate;
+    }
+
+    public String getRuntime() {
+        return Runtime;
+    }
+
+    public void setRuntime(String runtime) {
+        Runtime = runtime;
+    }
+
+    public String getGenre() {
+        return Genre;
+    }
+
+    public void setGenre(String genre) {
+        Genre = genre;
+    }
+
+    public String getIMDB_Rating() {
+        return IMDB_Rating;
+    }
+
+    public void setIMDB_Rating(String imdb_Rating) {
+        IMDB_Rating = imdb_Rating;
+    }
+
+    public String getOverview() {
+        return Overview;
+    }
+
+    public void setOverview(String overview) {
+        Overview = overview;
+    }
+
+    public String getMeta_score() {
+        return Meta_score;
+    }
+
+    public void setMeta_score(String meta_score) {
+        Meta_score = meta_score;
+    }
+
+    public String getDirector() {
+        return Director;
+    }
+
+    public void setDirector(String director) {
+        Director = director;
+    }
+
+    public ArrayList<String> getStar() {
+        return Star;
+    }
+
+    public void setStar(ArrayList<String> star) {
+        Star = star;
+    }
+
+    public String getNo_of_votes() {
+        return No_of_votes;
+    }
+
+    public void setNo_of_votes(String no_of_votes) {
+        No_of_votes = no_of_votes;
+    }
+
+    public String getGross() {
+        return Gross;
+    }
+
+    public void setGross(String gross) {
+        Gross = gross;
+    }
+  
+}
+
