@@ -1,6 +1,6 @@
 import java.util.Comparator;
 
-import sun.reflect.generics.tree.Tree;
+
 
 
 public class AVLTree<T extends Comparable<T>> {
@@ -38,7 +38,7 @@ public class AVLTree<T extends Comparable<T>> {
         return root.height; // Return the depth of the node
     }
 
-public boolean insert( T data){////////////////////////////////////////////////////////
+public boolean insert( T data){
     TreeNode<T> current = this.root;
     boolean status = true;
     if(root == null){
@@ -167,6 +167,7 @@ public TreeNode<T> findMax(TreeNode<T> root) {
     }
     return root;
 }
+
 
 
 

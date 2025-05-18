@@ -21,8 +21,8 @@ public class Comparators {// Comparator class to compare Movie objects based on 
         public int compare(Movie m1, Movie m2) {
         try {
             return Integer.compare(
-                Integer.parseInt(m1.getReleased_Year().trim()),
-                Integer.parseInt(m2.getReleased_Year().trim())
+                m1.getReleased_Year(),
+                m2.getReleased_Year()
             );
         } catch (NumberFormatException e) {
             return 0; // Or handle missing values as lower/higher priority
