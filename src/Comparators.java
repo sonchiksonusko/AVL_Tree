@@ -5,7 +5,7 @@ public class Comparators {// Comparator class to compare Movie objects based on 
     public static  class Poster_link_Comparator implements Comparator<Movie> { // Comparator for poster link
         @Override
         public int compare(Movie m1, Movie m2) {
-            return m1.getPoster_link().compare(m2.getPoster_link());
+            return m1.getPoster_link().compareTo(m2.getPoster_link());
         }        
     }
 
