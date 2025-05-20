@@ -95,7 +95,7 @@ public void updateHeight(TreeNode<T> node){
     node.height = Math.max(leftHeight, rightHeight) + 1; // Update the depth of the node
 }
 
-public void LL_Rotation(TreeNode<T> A) {/////////////////////////////////////////////////////////////////////////
+public void LL_Rotation(TreeNode<T> A) {
     TreeNode<T> B = A.leftChild;
 
     B.parent = A.parent; // Update parent of B
@@ -153,11 +153,13 @@ public void RL_Rotation(TreeNode<T> A) {
 }
 
 public TreeNode<T> findMin(TreeNode<T> root) {
-    if (root == null) return null;
-    while (root.leftChild != null) {
+   if (root == null) {
+        return null;
+      }
+   while (root.leftChild != null) {
         root = root.leftChild;
     }
-    return root;
+return root;
 }
 
 public TreeNode<T> findMax(TreeNode<T> root) {
@@ -175,106 +177,6 @@ public TreeNode<T> findMax(TreeNode<T> root) {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* 
-    public TreeNode<T> insert(TreeNode<T> root ,T data){
-        if(root == null){
-            return new TreeNode<>(data);
-        }
-        int comparator_res = comparator.compare(data,root.data);
-
-        if(comparator_res<0){//if new data is less than root data we go left
-            root.leftChild = insert(root.leftChild,data);
-            if(root.leftChild != null) {
-                root.leftChild.parent = root; // Set the parent of the left child
-            }
-        }
-        else { // If the data is equal
-       
-            root.rightChild = insert(root.rightChild,data);
-              if (root.rightChild != null) {
-                 root.rightChild.parent = root;
-        }
-        }
-       
-
-        root.depth = Math.max(getDepth(root.leftChild), getDepth(root.rightChild)) + 1; // Update the depth of the node
-        int balanceFactor = getBalanceFactor(root); // Get the balance factor of the node
-        
-
-        if(balanceFactor > 1 && comparator.compare(data,root.leftChild.data)<0){ // Left Left Case
-            return rightRotate(root); 
-        }
-        if(balanceFactor < -1 && comparator.compare(data,root.rightChild.data)>0){ // Right Right Case
-            return leftRotate(root); 
-        }
-        if(balanceFactor > 1 && comparator.compare(data,root.leftChild.data)>0){ // Left Right Case
-            root.leftChild = leftRotate(root.leftChild);
-            return rightRotate(root); 
-            
-        }   
-        if(balanceFactor < -1 && comparator.compare(data,root.rightChild.data)<0){ // Right Left Case
-            root.rightChild = rightRotate(root.rightChild);
-             return leftRotate(root);
-            
-        }
-        return root; 
-    }
-
-
-
-    public TreeNode<T> rightRotate(TreeNode<T> root){
-        if (root == null || root.leftChild == null) {
-            return null; // Handle null case
-        }
-        TreeNode<T> y = root.leftChild;
-        TreeNode<T> x = y.rightChild;
-        y.rightChild = root;
-        root.leftChild = x;
-
-        if (x != null) x.parent = root;
-        y.parent = root.parent;
-        root.parent = y;
-
-        root.depth = Math.max(getDepth(root.leftChild), getDepth(root.rightChild)) + 1; // Update the depth 
-        y.depth = Math.max(getDepth(y.leftChild), getDepth(y.rightChild)) + 1; 
-        return y; 
-    
-    }
-
-    public TreeNode<T> leftRotate(TreeNode<T> root){ 
-        if(root == null || root.rightChild == null) {
-            return null; // Handle null case
-        }   
-        TreeNode<T> y = root.rightChild;
-        TreeNode<T> x = y.leftChild;
-        y.leftChild = root;
-        root.rightChild = x;
-        if (x != null) x.parent = root;
-        y.parent = root.parent;
-        root.parent = y;
-
-        root.depth = Math.max(getDepth(root.leftChild), getDepth(root.rightChild)) + 1; // Update the depth 
-        y.depth = Math.max(getDepth(y.leftChild), getDepth(y.rightChild)) + 1;
-        return y; 
-    }
-
-
-*/
 
 
 

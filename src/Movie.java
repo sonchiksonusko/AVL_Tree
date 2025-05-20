@@ -6,10 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
-//import sun.reflect.generics.tree.Tree;
-
-//import sun.reflect.generics.tree.Tree;
-
 public class Movie implements Comparable<Movie> {
 
     String Poster_link;
@@ -55,19 +51,18 @@ public class Movie implements Comparable<Movie> {
         // Ensure the correct file path is provided
         //"C:/Users/Соня/Downloads/imdb_test.csv"
         //"C:/Users/Соня/Desktop/imdb_top_1000.csv"
+        //C:/Users/Соня/Downloads/movies_test.csv
         ArrayList<Movie> movies = readMoviesFromCSV("C:/Users/Соня/Desktop/imdb_top_1000.csv");
         AVLTree<Movie> ratingTree = new AVLTree<>(new Comparators.IMDB_Rating_Comparator());
-
-        //System.out.print(movies);
         for (Movie m : movies) {
         
             ratingTree.insert(m);
          
         }
-        System.out.print(" BY RATING");
-        System.out.println("root: "+ratingTree.root.data);
-        System.out.println("max: "+ratingTree.findMax(ratingTree.root).data);
-        System.out.println("min: "+ratingTree.findMin(ratingTree.root).data);
+        System.out.print("BY RATING "+"\n");
+        System.out.println("    root: "+ratingTree.root.data);
+        System.out.println("    max: "+ratingTree.findMax(ratingTree.root).data);
+        System.out.println("    min: "+ratingTree.findMin(ratingTree.root).data);
 
         //ratingTree.inOrderTraversal(ratingTree.root);
 
@@ -75,12 +70,12 @@ public class Movie implements Comparable<Movie> {
         for (Movie m : movies) {
             yearTree.insert(m);
         }
-        System.out.print("BY YEAR  ");////////////////////////////////////////////////////////////////////
+        System.out.print("BY YEAR  "+"\n");
         System.out.println("  root: "+yearTree.root.data);
         System.out.println("  max: "+ yearTree.findMax(yearTree.root).data);
         System.out.println("  min: "+yearTree.findMin(yearTree.root).data);
 
-        yearTree.inOrderTraversal(yearTree.root);
+        //yearTree.inOrderTraversal(yearTree.root);
        
 
 
@@ -88,7 +83,7 @@ public class Movie implements Comparable<Movie> {
         for (Movie m : movies) {
             titleTree.insert(m);
         }
-        System.out.print("BY TITLE");////////////////////////////////////////////////////////////////////////////////
+        System.out.print("BY TITLE"+"\n");////////////////////////////////////////////////////////////////////////////////
         System.out.println("   root: "+titleTree.root.data);
         System.out.println("   max: "+titleTree.findMax(titleTree.root).data);
         System.out.println("   min: "+titleTree.findMin(titleTree.root).data);
@@ -99,7 +94,7 @@ public class Movie implements Comparable<Movie> {
         for (Movie m : movies) {
             grossTree.insert(m);
         }
-        System.out.print("BY GROSS   ");
+        System.out.print("BY GROSS   "+"\n");//////////////////////////////////////////////////////
         System.out.println("   root: "+grossTree.root.data);
         System.out.println("   max: "+grossTree.findMax(grossTree.root).data);
         System.out.println("   min: "+grossTree.findMin(grossTree.root).data);
@@ -108,22 +103,22 @@ public class Movie implements Comparable<Movie> {
        System.out.print("Print movies after year "+"\n");
        printMoviesAfter(titleTree.root, yearTree.root, "Joker");
     
-       System.out.print("Count underrated movies "+"\n");
-       printMoviesAfter(titleTree.root, yearTree.root, "Joker");
-      
-
-        System.out.print(underatedMovies(ratingTree.root,0));///////////////////////////////////
-        System.out.print("Check is Underrated "+"\n");
-        System.out.print("The lves of others? " + isUnderrated(ratingTree.root, "The Lives Of Others") + "\n");////////////////////////////
+       
+        System.out.print("------------------------------------------------------"+"\n");
+        System.out.print(underatedMovies(ratingTree.root));///////////////////////////////////
+        System.out.print("Check is Underrated "+" \n");
+        System.out.print("Joker is Underrated? " + isUnderrated(ratingTree.root, "Joker") + "\n");////////////////////////////
+        System.out.print("Paths of Glory is Underrated? " + isUnderrated(ratingTree.root, "Paths of Glory") + "\n");////////////////////////////
+        System.out.print("------------------------------------------------------"+"\n");
 
         averageIMDB(ratingTree.root, "Robert Downey Jr.");
         profit(ratingTree.root, "Robert Downey Jr.");
         star_movie_data(ratingTree.root, "Robert Downey Jr.");
         System.out.print("------------------------------------------------------"+"\n");
         
-        averageIMDB(ratingTree.root, "Christian Bale");
-        profit(ratingTree.root, "Christian Bale");
-        star_movie_data(ratingTree.root, "Christian Bale");
+        averageIMDB(grossTree.root, "Christian Bale");
+        profit(grossTree.root, "Christian Bale");
+        star_movie_data(grossTree.root, "Christian Bale");
 
 
 
@@ -143,23 +138,22 @@ public class Movie implements Comparable<Movie> {
                     continue;
                 }
 
-                // Split by commas, but handle cases where commas are inside quotes (e.g., movie descriptions)
+                // Split by commas, but handle cases where commas are inside quotes 
                 String[] values = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
 
-                String poster_link = values[0].isEmpty() ? "0" : values[0];
-                String series_Title = values[1].isEmpty() ? "NA" : values[1];
+                String poster_link = values[0].isEmpty() ? "-1" : values[0];
+                String series_Title = values[1].isEmpty() ? "-1" : values[1];
                 String released_Year = values[2].replaceAll("\\D", "");  // keep only digits
-                int year =released_Year.isEmpty() ? 0 : Integer.parseInt(released_Year);
+                int year =released_Year.isEmpty() ? -1 : Integer.parseInt(released_Year);
               
-                String certificate = values[3].isEmpty() ? "NA" : values[3];
-               // String runtime = values[4].isEmpty() ? "0" : values[4];         // e.g. "128 min"  or  ""
+                String certificate = values[3].isEmpty() ? "-1" : values[3];
                 String runtimeDigits = values[4].replaceAll("\\D", ""); // "128"  (\\D = any non-digit)
                 int runtimeMinutes  = runtimeDigits.isEmpty() ? 0: Integer.parseInt(runtimeDigits);
-                String genre = values[5].isEmpty() ? "NA" : values[5];
-                Double imdb_Rating = values[6].isEmpty() ? 0.0 : Double.parseDouble(values[6]);
-                String overview = values[7].isEmpty() ? "NA" : values[7];
-                String meta_score = values[8].isEmpty() ? "NA" : values[8];
-                String director = values[9].isEmpty() ? "NA" : values[9];
+                String genre = values[5].isEmpty() ? "-1" : values[5];
+                Double imdb_Rating = values[6].isEmpty() ? null : Double.parseDouble(values[6]);
+                String overview = values[7].isEmpty() ? "-1" : values[7];
+                String meta_score = values[8].isEmpty() ? "-1" : values[8];
+                String director = values[9].isEmpty() ? "-1" : values[9];
 
                 // Split stars by '|' (pipe) character
                 // gather up to four star columns (10-13)
@@ -173,7 +167,7 @@ public class Movie implements Comparable<Movie> {
 
                 
                 String no_of_votes = (values.length > 14) ? values[14].trim() : "0";
-                String gross       = (values.length > 15) ? values[15].replaceAll("\\D", "") : "0";
+                String gross= (values.length > 15) ? values[15].replaceAll("\\D", "") : "-1";
 
                 Movie movie = new Movie(poster_link, series_Title, year, certificate, runtimeMinutes, genre,
                         imdb_Rating, overview, meta_score, director, star, no_of_votes, gross);
@@ -214,28 +208,30 @@ public static void printAfter(TreeNode<Movie> root,int year){
 }
 
 
-public static int underatedMovies(TreeNode<Movie> root, int count){//////////////////////////////////////////
+public static int underatedMovies(TreeNode<Movie> root){//////////////////////////////////////////
     if(root == null){
-        return count;
+        return 0;
     }
-    TreeNode<Movie> current = root;
-    long leftgross=Long.MAX_VALUE;
-    long rightgross=Long.MAX_VALUE;
-    long currentGross = parseGross(root.data.getGross());
+    int count = 0;
+  
 
-    if(current.leftChild!=null){// Check if left child exists
-        leftgross = parseGross(root.leftChild.data.getGross()); // Parse the gross value of the left child
+    if (root.leftChild != null && root.rightChild != null) {
+        Double rating = root.data.getIMDB_Rating();
+        if(rating != null ) {
+          
+        
+        long currentGross = parseGross(root.data.getGross());
+        long leftgross = parseGross(root.leftChild.data.getGross());
+        long rightgross = parseGross(root.rightChild.data.getGross());
+   
+        if(currentGross< leftgross && currentGross<rightgross ){// Check if current node's gross is less than both children
+            System.out.println("Underated movie:   "+ root.data.getSeries_Title());
+            count=1;
+        }
     }
-    if(current.rightChild!=null){
-        rightgross = parseGross(root.rightChild.data.getGross()); 
     }
-    if(currentGross< leftgross && currentGross<rightgross ){// Check if current node's gross is less than both children
-        System.out.println("Underated movie:   "+current.data);
-        count++;
-    }
-     underatedMovies(root.leftChild, count);
-     underatedMovies(root.rightChild, count);
-    //System.out.println("COUNT:"+count);
+     count +=underatedMovies(root.leftChild);
+     count +=underatedMovies(root.rightChild);
     return count;
 }
 
@@ -252,8 +248,11 @@ public static boolean isUnderrated(TreeNode<Movie> root, String title){/////////
     if(movie.leftChild == null || movie.rightChild == null){
         return false; // Movie is not underrated
     }
+    if(movie.data.getIMDB_Rating()==null){
+        return false; // Movie has no IMDB rating
+    }
    
-    if(movie.leftChild.data.getGross() == null || movie.rightChild.data.getGross() == null){//////////////////////////////////////
+    if(movie.leftChild.data.getGross() == null || movie.rightChild.data.getGross() == null||movie.data.getGross()==null){//////////////////////////////////////
         return false;
     }
     long leftGross = parseGross(movie.leftChild.data.getGross());
@@ -319,17 +318,16 @@ public static Double averageIMDB(TreeNode<Movie> root, String star){
 
 
 
-private static long parseGross(String grossStr) {
-    if (grossStr == null || grossStr.isEmpty()) {
+public static long parseGross(String gross) {
+    if (gross == null || gross.equals("-1") || gross.isEmpty()) {
         return 0;
     }
     try {
-        return Long.parseLong(grossStr.replace(",", "").replace("\"", ""));
+        return Long.parseLong(gross);
     } catch (NumberFormatException e) {
         return 0;
     }
 }
-
 
 
 
@@ -361,7 +359,7 @@ public static long profit(TreeNode<Movie> root, String star){
     return profit;
 }
 
-public static void star_movie_data(TreeNode<Movie> root , String star){////////////////////////////////////////////////////////////////////////////
+public static void star_movie_data(TreeNode<Movie> root , String star){
     if(root == null || star == null){
         return;
     }

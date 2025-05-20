@@ -1,5 +1,6 @@
 
 import java.util.Comparator;
+import java.util.List;
 public class Comparators {// Comparator class to compare Movie objects based on different attributes
     
     public static  class Poster_link_Comparator implements Comparator<Movie> { // Comparator for poster link
@@ -38,7 +39,7 @@ public class Comparators {// Comparator class to compare Movie objects based on 
     public static class Runtime_Comparator implements Comparator<Movie>{
         @Override
         public int compare(Movie m1, Movie m2) {
-            return Integer.compare(Integer.parseInt(m1.getRuntime()), Integer.parseInt(m2.getRuntime()));
+            return m1.getRuntime().compareTo(m2.getRuntime());
         }
     }
     public static  class Genre_Comparator implements Comparator<Movie>{
@@ -73,10 +74,17 @@ public class Comparators {// Comparator class to compare Movie objects based on 
         }
     }
     public static  class Stars_Comparator implements Comparator<Movie>{
-        @Override
+       @Override
         public int compare(Movie m1, Movie m2) {
-            return m1.getStar().compare(m2.getStar());
-        }
+        List<String> actors1 = m1.getStar(); // Assuming getStars() returns List<String>
+        List<String> actors2 = m2.getStar();
+
+        if (actors1.size() == 0 && actors2.size() == 0) return 0;
+        if (actors1.size() == 0) return -1;
+        if (actors2.size() == 0) return 1;
+
+        return actors1.get(0).compareTo(actors2.get(0)); // Compare by first actor
+    }
     }
     public static  class No_of_Votes_Comparator implements Comparator<Movie>{
         @Override
@@ -85,9 +93,16 @@ public class Comparators {// Comparator class to compare Movie objects based on 
         }
     }
     public static  class Gross_Collection_Comparator implements Comparator<Movie>{
-        @Override
-        public int compare(Movie m1, Movie m2) {
-            return Double.compare(Double.parseDouble(m1.getGross()),Double.parseDouble(m2.getGross()));
-        }
+       public int compare(Movie m1, Movie m2) {
+        double gross1 = Double.parseDouble(m1.getGross());
+        double gross2 = Double.parseDouble(m2.getGross());
+
+        // Treat -1 as "infinite" (i.e., not comparable)
+        if (gross1 == -1 && gross2 == -1) return 0;
+        if (gross1 == -1) return 1; // m1 should come after m2
+        if (gross2 == -1) return -1; // m1 should come before m2
+
+        return Double.compare(gross1, gross2);
+    }
     }       
 }
