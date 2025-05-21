@@ -1,8 +1,4 @@
 import java.util.Comparator;
-
-
-
-
 public class AVLTree<T extends Comparable<T>> {
     public TreeNode<T> root; // The root node of the AVL tree
     private Comparator<T> comparator; // Comparator (that we have already created to compare movies)
@@ -31,7 +27,7 @@ public class AVLTree<T extends Comparable<T>> {
 
 
 
-    public int getHeight(TreeNode<T> root){
+public int getHeight(TreeNode<T> root){
         if(root == null){
             return -1;
     }
@@ -118,6 +114,7 @@ public void LL_Rotation(TreeNode<T> A) {
     updateHeight(A);
     updateHeight(B);
 }
+
 public void RR_Rotation(TreeNode<T> A) {
     TreeNode<T> B = A.rightChild;
 
@@ -155,11 +152,11 @@ public void RL_Rotation(TreeNode<T> A) {
 public TreeNode<T> findMin(TreeNode<T> root) {
    if (root == null) {
         return null;
-      }
+    }
    while (root.leftChild != null) {
         root = root.leftChild;
     }
-return root;
+    return root;
 }
 
 public TreeNode<T> findMax(TreeNode<T> root) {

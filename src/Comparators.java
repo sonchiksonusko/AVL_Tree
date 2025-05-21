@@ -93,16 +93,9 @@ public class Comparators {// Comparator class to compare Movie objects based on 
         }
     }
     public static  class Gross_Collection_Comparator implements Comparator<Movie>{
-       public int compare(Movie m1, Movie m2) {
-        double gross1 = Double.parseDouble(m1.getGross());
-        double gross2 = Double.parseDouble(m2.getGross());
-
-        // Treat -1 as "infinite" (i.e., not comparable)
-        if (gross1 == -1 && gross2 == -1) return 0;
-        if (gross1 == -1) return 1; // m1 should come after m2
-        if (gross2 == -1) return -1; // m1 should come before m2
-
-        return Double.compare(gross1, gross2);
-    }
+        @Override
+        public int compare(Movie m1, Movie m2) {
+            return Double.compare(Double.parseDouble(m1.getGross()),Double.parseDouble(m2.getGross()));
+        }
     }       
 }
